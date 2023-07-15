@@ -1,5 +1,6 @@
 import { ArrayKardexOrdenado } from './ArrayKardexOrdenado'
 import Axios from 'axios'
+import { FormateadorFecha } from './FormateadorFecha'
 
 const AxiosKardex = async () => {
   let responseCompras
@@ -10,7 +11,7 @@ const AxiosKardex = async () => {
   let comprasAux = [], ventasAux = []
   let compras = [], ventas = [], detalles = []
   let productosAux = []
-  let jwToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODkyNTcwMDEsImV4cCI6MTY4OTM0MzQwMX0.5jrpDtsL5HA_HwQahx6fmtQWBBJKWjZy9qf2pdi8MnE'
+  let jwToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik1hdGVpdG8iLCJpYXQiOjE2ODkzODI3MjksImV4cCI6MTY4OTQ2OTEyOX0.wcR2la24__WZEunu7hxRxSV5THroCrVNm9EoihYcw34'
 
   try {
     responseDetalles = Axios({url:'https://inventarioproductos.onrender.com/ajustes', headers:{'Authorization':`${jwToken}`}})
@@ -46,7 +47,8 @@ const AxiosKardex = async () => {
       })
       if(filtroId.length>0){
         let datos = {}
-        datos.fecha = detalleF.aju_fecha
+        let fecha = FormateadorFecha(detalleF.aju_fecha)
+        datos.fecha = fecha
         datos.idProducto = (det.producto.pro_id).toString()
         datos.nombreProducto = det.producto.pro_nombre
         datos.numeroDocumento = detalleF.aju_numero
@@ -76,7 +78,8 @@ const AxiosKardex = async () => {
       return nombreProducto.pro_id === idProductoAux
     })
     if (nombreProducto.length > 0) {
-      datos.fecha = ventasAux[index].facturaCabecera.fechaFactura
+      let fecha = FormateadorFecha(ventasAux[index].facturaCabecera.fechaFactura)
+      datos.fecha = fecha
       datos.idProducto = ventasAux[index].idProducto
       datos.nombreProducto = nombreProducto[0].pro_nombre
       datos.numeroDocumento = ventasAux[index].facturaCabecera.numeroFactura
@@ -97,7 +100,8 @@ const AxiosKardex = async () => {
         return nombreProducto.pro_id === idProductoAux
       })
       if (nombreProducto.length > 0) {
-        datos.fecha = comprasAux[index].fecha_factura
+        let fecha = FormateadorFecha(comprasAux[index].fecha_factura)
+        datos.fecha = fecha
         datos.idProducto = idProductoAux.toString()
         datos.nombreProducto = nombreProducto[0].pro_nombre
         datos.numeroDocumento = comprasAux[index].id

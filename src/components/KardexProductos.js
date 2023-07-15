@@ -47,7 +47,6 @@ const KardexProductos = () => {
             let datosFiltrados = productos.filter(function (datosFiltrados) {
                 return datosFiltrados.idProducto === datosProductoBuscado.codProd
             })
-            console.log(respuestaDatos)
             let tamanoDatos = datosFiltrados.length - 1
             datosFiltrados[tamanoDatos].stock = datosFiltrados[tamanoDatos].cantidad
             if (tamanoDatos >= 0) {
@@ -69,7 +68,7 @@ const KardexProductos = () => {
         if (respuestaDatos) {
             let productosSinFiltro = respuestaDatos;
             let productosConFiltro = productosSinFiltro.filter(function (productosConFiltro) {
-                return productosConFiltro.idProducto === filtroProducto || productosConFiltro.nombreProducto === filtroProducto
+                return productosConFiltro.idProducto === filtroProducto || productosConFiltro.nombreProducto.toLowerCase() === filtroProducto.toLowerCase()
             })
             if (productosConFiltro[0]) {
                 setDatosProductoBuscado({
